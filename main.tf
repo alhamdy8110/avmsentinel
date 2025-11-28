@@ -41,7 +41,7 @@ module "alz_log_analytics" {
   internet_query_enabled     = var.log_analytics_internet_query_enabled
   
   # Tags following ALZ standards
-  tags = local.log_analytics_tags
+  tags = local.common_tags
 }
 
 # Microsoft Sentinel - Security Information and Event Management (SIEM)
@@ -116,7 +116,7 @@ resource "azapi_resource" "data_collection_rule" {
     }
     
     kind = var.data_collection_rule_kind
-    tags = local.dcr_tags
+    tags = local.common_tags
   })
 
   schema_validation_enabled = false
@@ -132,71 +132,5 @@ resource "azurerm_role_assignment" "dcr_to_law" {
   principal_id         = try(azapi_resource.data_collection_rule[0].identity[0].principal_id, null)
   
   depends_on = [azapi_resource.data_collection_rule]
-}
-
-# Application Insights for monitoring
-module "alz_application_insights" {
-  source = "Azure/avm-res-applicationinsights-component/azurerm"
-  version = "~> 0.1"
-  
-  name = var.application_insights_name
-  location = var.location
-  resource_group_name = module.alz_core_resource_group.name
-  
-  # Log Analytics workspace integration
-  workspace_id = module.alz_log_analytics.resource.id
-  
-  # Application type
-  application_type = "web"
-  
-  tags = merge(var.tags, {
-    purpose = "application-monitoring"
-    environment = var.environment
-  })
-}
-
-# Key Vault for secrets management
-module "alz_key_vault" {
-  source = "Azure/avm-res-keyvault-vault/azurerm"
-  version = "~> 0.1"
-  
-  name = var.key_vault_name
-  location = var.location
-  resource_group_name = module.alz_core_resource_group.name
-  
-  # SKU configuration
-  sku_name = "standard"
-  
-  # Network access (can be configured per environment)
-  network_acls = {
-    default_action = var.key_vault_network_default_action
-    ip_rules = var.key_vault_allowed_ip_ranges
-  }
-  
-  # Access policies
-  access_policies = var.key_vault_access_policies
-  
-  tags = merge(var.tags, {
-    purpose = "secrets-management"
-    environment = var.environment
-  })
-}
-
-# Network Security Group for core resources
-module "alz_core_nsg" {
-  source = "Azure/avm-res-network-networksecuritygroup/azurerm"
-  version = "~> 0.1"
-  
-  name = var.core_nsg_name
-  location = var.location
-  resource_group_name = module.alz_core_resource_group.name
-  
-  # Security rules (can be customized per environment)
-  security_rules = var.core_nsg_rules
-  
-  tags = merge(var.tags, {
-    purpose = "core-network-security"
-    environment = var.environment
-  })
 }
 

@@ -4,10 +4,6 @@ environment   = "dev"
 location      = "East US"
 location_short = "eus"
 
-# Network configuration for development
-key_vault_network_default_action = "Allow"
-key_vault_allowed_ip_ranges      = []
-
 # Log Analytics configuration for development
 log_retention_days                    = 7
 log_analytics_daily_quota_gb          = null  # Unlimited

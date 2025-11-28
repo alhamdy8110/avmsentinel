@@ -34,32 +34,5 @@ locals {
       Compliance      = try(var.tags.Compliance, "Standard")
     }
   )
-  
-  # Log Analytics specific tags
-  log_analytics_tags = merge(
-    local.common_tags,
-    {
-      Purpose = "centralized-logging"
-      Service = "LogAnalytics"
-    }
-  )
-  
-  # Sentinel specific tags
-  sentinel_tags = merge(
-    local.common_tags,
-    {
-      Purpose = "security-information-event-management"
-      Service = "MicrosoftSentinel"
-    }
-  )
-  
-  # Data Collection Rule tags
-  dcr_tags = merge(
-    local.common_tags,
-    {
-      Purpose = "data-collection"
-      Service = "DataCollectionRule"
-    }
-  )
 }
 

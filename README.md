@@ -8,9 +8,8 @@ The ALZ foundation provides:
 - **Log Analytics Workspace**: Centralized logging and monitoring using [Azure Verified Module](https://github.com/Azure/terraform-azurerm-avm-res-operationalinsights-workspace)
 - **Microsoft Sentinel**: Security Information and Event Management (SIEM) enabled on Log Analytics Workspace
 - **Data Collection Rules**: Custom data ingestion rules for advanced monitoring
-- **Core Resources**: Application Insights, Key Vault, NSG
 - **Centralized Monitoring**: Unified logging and monitoring
-- **Security Foundation**: Network security and secrets management
+- **Security Foundation**: SIEM capabilities for threat detection and response
 
 **Note**: This module assumes that Management Group and Subscription already exist. It will deploy resources in the current subscription context.
 
@@ -20,12 +19,9 @@ The ALZ foundation provides:
 [Existing] Management Group (mg-alz-foundation)
     └── [Existing] Subscription (sub-alz-foundation)
         └── Resource Group (rg-alz-core) ← Created by this module
-            ├── Log Analytics Workspace
-            │   ├── Microsoft Sentinel (SIEM)
-            │   └── Data Collection Rule (DCR)
-            ├── Application Insights
-            ├── Key Vault
-            └── Network Security Group
+            └── Log Analytics Workspace
+                ├── Microsoft Sentinel (SIEM)
+                └── Data Collection Rule (DCR)
 ```
 
 ## Features
@@ -276,8 +272,6 @@ resource "azurerm_virtual_machine_extension" "dcr_association" {
 
 ## Security Considerations
 
-- **Network Access**: Configure IP restrictions for production environments
-- **Access Policies**: Set up proper Key Vault access policies
 - **Sentinel**: Enable data connectors and configure analytics rules
 - **Data Collection**: Review DCR data sources to ensure compliance
 - **Monitoring**: Enable Security Center and compliance policies
@@ -313,9 +307,8 @@ resource "azurerm_virtual_machine_extension" "dcr_association" {
    az role assignment list --assignee $(az account show --query user.name -o tsv)
    ```
 3. **Resource Naming**: Check for naming conflicts (workspace names must be globally unique)
-4. **Network Access**: Verify IP ranges for Key Vault access
-5. **Sentinel Onboarding**: Ensure Log Analytics Workspace is fully provisioned before enabling Sentinel
-6. **DCR Role Assignment**: Verify managed identity is created before role assignment
+4. **Sentinel Onboarding**: Ensure Log Analytics Workspace is fully provisioned before enabling Sentinel
+5. **DCR Role Assignment**: Verify managed identity is created before role assignment
 
 ### Commands
 
@@ -355,18 +348,6 @@ az monitor data-collection rule show --resource-group rg-alz-core --rule-name dc
 - **Name**: Auto-generated or `dcr-alz-central` (configurable)
 - **Purpose**: Custom data ingestion rules
 - **Kind**: Linux, Windows, or Agent
-
-### Application Insights
-- **Name**: `appi-alz-central` (configurable)
-- **Purpose**: Application performance monitoring
-
-### Key Vault
-- **Name**: `kv-alz-secrets` (configurable)
-- **Purpose**: Secrets and certificate management
-
-### Network Security Group
-- **Name**: `nsg-alz-core` (configurable)
-- **Purpose**: Network security rules
 
 ## References
 

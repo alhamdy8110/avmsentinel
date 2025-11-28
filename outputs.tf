@@ -79,32 +79,6 @@ output "data_collection_rule_endpoint" {
   value       = var.enable_data_collection_rule ? try(azapi_resource.data_collection_rule[0].output.properties.endpoint, null) : null
 }
 
-output "application_insights_id" {
-  description = "ID of the Application Insights resource"
-  value       = module.alz_application_insights.id
-}
-
-output "application_insights_instrumentation_key" {
-  description = "Instrumentation key for Application Insights"
-  value       = module.alz_application_insights.instrumentation_key
-  sensitive   = true
-}
-
-output "key_vault_id" {
-  description = "ID of the Key Vault"
-  value       = module.alz_key_vault.id
-}
-
-output "key_vault_uri" {
-  description = "URI of the Key Vault"
-  value       = module.alz_key_vault.vault_uri
-}
-
-output "core_nsg_id" {
-  description = "ID of the core Network Security Group"
-  value       = module.alz_core_nsg.id
-}
-
 # Backend configuration for other modules
 output "backend_config" {
   description = "Backend configuration for other Terraform modules"

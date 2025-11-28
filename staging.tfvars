@@ -4,10 +4,6 @@ environment   = "staging"
 location      = "East US"
 location_short = "eus"
 
-# Network configuration for staging
-key_vault_network_default_action = "Allow"
-key_vault_allowed_ip_ranges      = []
-
 # Log Analytics configuration for staging
 log_retention_days                    = 30
 log_analytics_daily_quota_gb          = null  # Unlimited

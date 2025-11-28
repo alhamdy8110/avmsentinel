@@ -25,9 +25,6 @@ Contains the main infrastructure resources:
 - **Log Analytics Workspace** (Azure Verified Module)
 - **Microsoft Sentinel** (onboarding and data connectors)
 - **Data Collection Rule** (using azapi provider)
-- Application Insights
-- Key Vault
-- Network Security Group
 
 **Note**: Management Group and Subscription are assumed to already exist and are not created by this module.
 
@@ -38,9 +35,6 @@ All input variables organized by resource type:
 - **Log Analytics variables** (retention, SKU, quota, network access)
 - **Sentinel variables** (enablement, data connectors, CMK)
 - **Data Collection Rule variables** (sources, flows, kind)
-- Application Insights variables
-- Key Vault variables
-- NSG variables
 
 ### outputs.tf
 All output values:
@@ -48,9 +42,6 @@ All output values:
 - **Log Analytics outputs** (ID, customer ID, shared keys)
 - **Sentinel outputs** (workspace ID, data connectors)
 - **Data Collection Rule outputs** (ID, name, endpoint)
-- Application Insights outputs
-- Key Vault outputs
-- NSG outputs
 - Backend configuration
 
 ### providers.tf
