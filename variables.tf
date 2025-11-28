@@ -21,47 +21,6 @@ variable "tags" {
   default     = {}
 }
 
-# Management Group Configuration
-variable "management_group_name" {
-  description = "Name of the management group"
-  type        = string
-  default     = "mg-alz-foundation"
-}
-
-variable "management_group_display_name" {
-  description = "Display name of the management group"
-  type        = string
-  default     = "ALZ Foundation Management Group"
-}
-
-variable "parent_management_group_id" {
-  description = "Parent management group ID (optional)"
-  type        = string
-  default     = null
-}
-
-# Subscription Configuration
-variable "subscription_name" {
-  description = "Name of the subscription"
-  type        = string
-  default     = "sub-alz-foundation"
-}
-
-variable "billing_account_name" {
-  description = "Billing account name"
-  type        = string
-}
-
-variable "billing_profile_name" {
-  description = "Billing profile name"
-  type        = string
-}
-
-variable "invoice_section_name" {
-  description = "Invoice section name"
-  type        = string
-}
-
 # Resource Group Configuration
 variable "core_resource_group_name" {
   description = "Name of the core resource group"

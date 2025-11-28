@@ -1,15 +1,5 @@
 # ALZ Outputs Configuration
 
-output "management_group_id" {
-  description = "ID of the management group"
-  value       = module.alz_management_group.id
-}
-
-output "subscription_id" {
-  description = "ID of the subscription"
-  value       = module.alz_subscription.id
-}
-
 output "core_resource_group_id" {
   description = "ID of the core resource group"
   value       = module.alz_core_resource_group.id

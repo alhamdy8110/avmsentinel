@@ -1,38 +1,9 @@
 # Azure Landing Zone (ALZ) Terraform Module
-# This module deploys the core ALZ foundation
+# This module deploys Log Analytics Workspace with Sentinel and Data Collection Rule
+# Note: Management Group and Subscription are assumed to already exist
 
 # Get current Azure client configuration
 data "azurerm_client_config" "current" {}
-
-# Management Group for ALZ
-module "alz_management_group" {
-  source = "Azure/avm-res-management-managementgroup/azurerm"
-  version = "~> 0.1"
-  
-  name = var.management_group_name
-  display_name = var.management_group_display_name
-  
-  # Parent management group (if any)
-  parent_management_group_id = var.parent_management_group_id
-  
-  tags = var.tags
-}
-
-# Subscription for ALZ resources
-module "alz_subscription" {
-  source = "Azure/avm-res-subscriptions-subscription/azurerm"
-  version = "~> 0.1"
-  
-  name = var.subscription_name
-  billing_account_name = var.billing_account_name
-  billing_profile_name = var.billing_profile_name
-  invoice_section_name = var.invoice_section_name
-  
-  # Management group assignment
-  management_group_id = module.alz_management_group.id
-  
-  tags = var.tags
-}
 
 # Resource Group for ALZ core resources
 module "alz_core_resource_group" {

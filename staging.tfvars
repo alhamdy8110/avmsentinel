@@ -4,11 +4,6 @@ environment   = "staging"
 location      = "East US"
 location_short = "eus"
 
-# Billing configuration (update with your values)
-billing_account_name = "your-billing-account"
-billing_profile_name = "your-billing-profile"
-invoice_section_name = "your-invoice-section"
-
 # Network configuration for staging
 key_vault_network_default_action = "Allow"
 key_vault_allowed_ip_ranges      = []
