@@ -5,8 +5,6 @@ This module deploys a comprehensive Azure Landing Zone foundation with Log Analy
 ## Overview
 
 The ALZ foundation provides:
-- **Management Groups**: Hierarchical organization of subscriptions
-- **Subscriptions**: Resource containers with billing isolation
 - **Log Analytics Workspace**: Centralized logging and monitoring using [Azure Verified Module](https://github.com/Azure/terraform-azurerm-avm-res-operationalinsights-workspace)
 - **Microsoft Sentinel**: Security Information and Event Management (SIEM) enabled on Log Analytics Workspace
 - **Data Collection Rules**: Custom data ingestion rules for advanced monitoring
@@ -14,18 +12,20 @@ The ALZ foundation provides:
 - **Centralized Monitoring**: Unified logging and monitoring
 - **Security Foundation**: Network security and secrets management
 
+**Note**: This module assumes that Management Group and Subscription already exist. It will deploy resources in the current subscription context.
+
 ## Architecture
 
 ```
-Management Group (mg-alz-foundation)
-└── Subscription (sub-alz-foundation)
-    └── Resource Group (rg-alz-core)
-        ├── Log Analytics Workspace
-        │   ├── Microsoft Sentinel (SIEM)
-        │   └── Data Collection Rule (DCR)
-        ├── Application Insights
-        ├── Key Vault
-        └── Network Security Group
+[Existing] Management Group (mg-alz-foundation)
+    └── [Existing] Subscription (sub-alz-foundation)
+        └── Resource Group (rg-alz-core) ← Created by this module
+            ├── Log Analytics Workspace
+            │   ├── Microsoft Sentinel (SIEM)
+            │   └── Data Collection Rule (DCR)
+            ├── Application Insights
+            ├── Key Vault
+            └── Network Security Group
 ```
 
 ## Features
@@ -62,7 +62,7 @@ Management Group (mg-alz-foundation)
    terraform version
    ```
 
-3. **Billing Account**: Access to billing account, profile, and invoice section (if creating subscription)
+3. **Existing Resources**: Management Group and Subscription should already exist (this module does not create them)
 
 4. **Permissions**: Owner or Contributor role on the target subscription
 
@@ -87,11 +87,6 @@ Edit `dev.tfvars` (or create `prod.tfvars`) with your configuration:
 environment   = "dev"
 location      = "East US"
 location_short = "eus"
-
-# Billing configuration
-billing_account_name = "your-billing-account"
-billing_profile_name = "your-billing-profile"
-invoice_section_name = "your-invoice-section"
 
 # Enable Sentinel and DCR
 enable_sentinel             = true
@@ -311,7 +306,7 @@ resource "azurerm_virtual_machine_extension" "dcr_association" {
 
 ### Common Issues
 
-1. **Billing Configuration**: Ensure correct billing account/profile/section
+1. **Subscription Context**: Ensure you're authenticated to the correct Azure subscription
 2. **Permissions**: Verify Azure CLI authentication and permissions
    ```bash
    az account show
@@ -325,11 +320,8 @@ resource "azurerm_virtual_machine_extension" "dcr_association" {
 ### Commands
 
 ```bash
-# Check Azure CLI authentication
+# Check Azure CLI authentication and current subscription
 az account show
-
-# List billing accounts
-az billing account list
 
 # Check Log Analytics Workspace
 az monitor log-analytics workspace show --resource-group rg-alz-core --workspace-name law-alz-central
@@ -343,13 +335,7 @@ az monitor data-collection rule show --resource-group rg-alz-core --rule-name dc
 
 ## Resources Created
 
-### Management Group
-- **Name**: `mg-alz-foundation` (configurable)
-- **Purpose**: Hierarchical organization of subscriptions
-
-### Subscription
-- **Name**: `sub-alz-foundation` (configurable)
-- **Purpose**: Resource container with billing isolation
+**Note**: Management Group and Subscription are assumed to already exist. This module creates the following resources:
 
 ### Resource Group
 - **Name**: `rg-alz-core` (configurable)

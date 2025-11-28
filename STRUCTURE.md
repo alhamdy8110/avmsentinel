@@ -21,8 +21,6 @@ avmsentinel/
 
 ### main.tf
 Contains the main infrastructure resources:
-- Management Group
-- Subscription
 - Resource Group
 - **Log Analytics Workspace** (Azure Verified Module)
 - **Microsoft Sentinel** (onboarding and data connectors)
@@ -31,11 +29,11 @@ Contains the main infrastructure resources:
 - Key Vault
 - Network Security Group
 
+**Note**: Management Group and Subscription are assumed to already exist and are not created by this module.
+
 ### variables.tf
 All input variables organized by resource type:
 - General configuration (location, environment, tags)
-- Management Group variables
-- Subscription variables
 - Resource Group variables
 - **Log Analytics variables** (retention, SKU, quota, network access)
 - **Sentinel variables** (enablement, data connectors, CMK)
@@ -46,8 +44,6 @@ All input variables organized by resource type:
 
 ### outputs.tf
 All output values:
-- Management Group ID
-- Subscription ID
 - Resource Group information
 - **Log Analytics outputs** (ID, customer ID, shared keys)
 - **Sentinel outputs** (workspace ID, data connectors)
@@ -110,11 +106,11 @@ Following ALZ best practices:
 ## Dependencies
 
 ```
-Management Group
+[Existing] Management Group
     ↓
-Subscription
+[Existing] Subscription
     ↓
-Resource Group
+Resource Group (created by this module)
     ↓
 Log Analytics Workspace
     ↓
