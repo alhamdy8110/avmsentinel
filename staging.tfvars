@@ -1,6 +1,5 @@
 # Staging Environment Configuration
 
-environment   = "staging"
 location      = "East US"
 location_short = "eus"
 

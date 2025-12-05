@@ -1,6 +1,5 @@
 # Development Environment Configuration
 
-environment   = "dev"
 location      = "East US"
 location_short = "eus"
 

@@ -3,7 +3,7 @@
 
 locals {
   # Resource naming convention following ALZ best practices
-  name_prefix = "${var.environment}-${var.location_short}"
+  name_prefix = var.location_short
   
   # Log Analytics Workspace configuration
   log_analytics_workspace_name = coalesce(
@@ -27,7 +27,6 @@ locals {
   common_tags = merge(
     var.tags,
     {
-      Environment     = var.environment
       ManagedBy       = "Terraform"
       Module          = "alz-log-analytics-sentinel"
       CostCenter      = try(var.tags.CostCenter, "IT-001")

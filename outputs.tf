@@ -49,19 +49,19 @@ output "sentinel_workspace_id" {
   value       = var.enable_sentinel ? try(azurerm_sentinel_log_analytics_workspace_onboarding.sentinel[0].workspace_id, null) : null
 }
 
-output "sentinel_data_connectors" {
-  description = "Microsoft Sentinel data connectors configuration"
-  value = {
-    azure_active_directory = var.enable_sentinel && var.enable_sentinel_data_connectors ? {
-      id   = try(azurerm_sentinel_data_connector_azure_active_directory.sentinel_aad[0].id, null)
-      name = try(azurerm_sentinel_data_connector_azure_active_directory.sentinel_aad[0].name, null)
-    } : null
-    azure_activity = var.enable_sentinel && var.enable_sentinel_data_connectors ? {
-      id   = try(azurerm_sentinel_data_connector_azure_activity.sentinel_activity[0].id, null)
-      name = try(azurerm_sentinel_data_connector_azure_activity.sentinel_activity[0].name, null)
-    } : null
-  }
-}
+# output "sentinel_data_connectors" {
+#   description = "Microsoft Sentinel data connectors configuration"
+#   value = {
+#     azure_active_directory = var.enable_sentinel && var.enable_sentinel_data_connectors ? {
+#       id   = try(azurerm_sentinel_data_connector_azure_active_directory.sentinel_aad[0].id, null)
+#       name = try(azurerm_sentinel_data_connector_azure_active_directory.sentinel_aad[0].name, null)
+#     } : null
+#     azure_activity = var.enable_sentinel && var.enable_sentinel_data_connectors ? {
+#       id   = try(azurerm_sentinel_data_connector_azure_activity.sentinel_activity[0].id, null)
+#       name = try(azurerm_sentinel_data_connector_azure_activity.sentinel_activity[0].name, null)
+#     } : null
+#   }
+# }
 
 # Data Collection Rule Outputs
 output "data_collection_rule_id" {

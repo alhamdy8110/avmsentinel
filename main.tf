@@ -15,7 +15,6 @@ module "alz_core_resource_group" {
   
   tags = merge(var.tags, {
     purpose = "alz-core"
-    environment = var.environment
   })
 }
 
@@ -55,21 +54,21 @@ resource "azurerm_sentinel_log_analytics_workspace_onboarding" "sentinel" {
 
 # Microsoft Sentinel Data Connectors
 # Azure Active Directory connector
-resource "azurerm_sentinel_data_connector_azure_active_directory" "sentinel_aad" {
-  count                      = var.enable_sentinel && var.enable_sentinel_data_connectors ? 1 : 0
-  name                       = "AzureActiveDirectory"
-  log_analytics_workspace_id = module.alz_log_analytics.resource.id
-  depends_on                 = [azurerm_sentinel_log_analytics_workspace_onboarding.sentinel]
-}
+# resource "azurerm_sentinel_data_connector_azure_active_directory" "sentinel_aad" {
+#   count                      = var.enable_sentinel && var.enable_sentinel_data_connectors ? 1 : 0
+#   name                       = "AzureActiveDirectory"
+#   log_analytics_workspace_id = module.alz_log_analytics.resource.id
+#   depends_on                 = [azurerm_sentinel_log_analytics_workspace_onboarding.sentinel]
+# }
 
 # Azure Activity connector
-resource "azurerm_sentinel_data_connector_azure_activity" "sentinel_activity" {
-  count                      = var.enable_sentinel && var.enable_sentinel_data_connectors ? 1 : 0
-  name                       = "AzureActivity"
-  log_analytics_workspace_id = module.alz_log_analytics.resource.id
-  subscription_id            = data.azurerm_client_config.current.subscription_id
-  depends_on                 = [azurerm_sentinel_log_analytics_workspace_onboarding.sentinel]
-}
+# resource "azurerm_sentinel_data_connector_azure_activity" "sentinel_activity" {
+#   count                      = var.enable_sentinel && var.enable_sentinel_data_connectors ? 1 : 0
+#   name                       = "AzureActivity"
+#   log_analytics_workspace_id = module.alz_log_analytics.resource.id
+#   subscription_id            = data.azurerm_client_config.current.subscription_id
+#   depends_on                 = [azurerm_sentinel_log_analytics_workspace_onboarding.sentinel]
+# }
 
 # Microsoft Sentinel Analytics Rules (optional)
 # Uncomment and configure as needed
@@ -118,6 +117,11 @@ resource "azapi_resource" "data_collection_rule" {
     kind = var.data_collection_rule_kind
     tags = local.common_tags
   })
+
+  # System-assigned managed identity for role-based access
+  identity = {
+    type = "SystemAssigned"
+  }
 
   schema_validation_enabled = false
   ignore_missing_property   = true
